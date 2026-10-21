@@ -1,0 +1,386 @@
+{
+ "frozen_at": "2026-10-06T09:43:34+00:00",
+ "code_commit_of_fits": "98a581b",
+ "sam3_threshold": 0.5,
+ "sam3_condition": "sam3_t050",
+ "confirmations": 1,
+ "selection": {
+  "sam3_threshold": 0.5,
+  "confirmations": 1,
+  "sam3_success": 0.8656716417910447,
+  "sam3_false_declarations": 0.0,
+  "sam3_no_declaration": 0.13432835820895522,
+  "n_calib_episodes": 67
+ },
+ "conditions": {
+  "oracle": {
+   "channel": "",
+   "constants": "--override detection_likelihood.false_positive_rate=0.005975 --override detection_likelihood.detection_gain=0.999 --override detection_likelihood.h_slope=3.596 --override detection_likelihood.h_area0=0.0001 --override planner.kappa_beta=0.3286 --override planner.kappa_lambda=0.3619",
+   "fitted": {
+    "false_positive_rate": 0.005974809261729192,
+    "detection_gain": 0.9989999999999853,
+    "h_slope": 3.595606196069207,
+    "h_area0": 0.0001,
+    "kappa_beta": 0.3285865292369561,
+    "kappa_lambda": 0.36193168876762166
+   },
+   "ci95": {
+    "false_positive_rate": [
+     0.0022561616731618917,
+     0.01028032401215043
+    ],
+    "detection_gain": [
+     0.9989999999999791,
+     0.9989999999999887
+    ],
+    "h_slope": [
+     2.8814319678608142,
+     45.0684244628457
+    ],
+    "h_area0": [
+     0.0001,
+     0.0001
+    ],
+    "kappa_beta": [
+     0.2653938181459828,
+     0.3860663556371708
+    ],
+    "kappa_lambda": [
+     0.3184942258394025,
+     0.4095738218151062
+    ]
+   },
+   "held": {},
+   "n_frames": 1915,
+   "n_true_detections": 1057
+  },
+  "s5_fn025": {
+   "channel": "--override sensor_detector.fn_rate=0.25",
+   "constants": "--override detection_likelihood.false_positive_rate=0.003922 --override detection_likelihood.detection_gain=0.999 --override detection_likelihood.h_slope=2.841 --override detection_likelihood.h_area0=0.0001 --override planner.kappa_beta=0.3141 --override planner.kappa_lambda=0.3675",
+   "fitted": {
+    "false_positive_rate": 0.00392200327516453,
+    "detection_gain": 0.9989999999996997,
+    "h_slope": 2.841019742345144,
+    "h_area0": 0.0001,
+    "kappa_beta": 0.3141125955479138,
+    "kappa_lambda": 0.3675396546087236
+   },
+   "ci95": {
+    "false_positive_rate": [
+     0.001251009039658777,
+     0.007103604796302358
+    ],
+    "detection_gain": [
+     0.9820724716339093,
+     0.998999999999934
+    ],
+    "h_slope": [
+     2.1723526670416207,
+     100.0
+    ],
+    "h_area0": [
+     0.0001,
+     0.0001
+    ],
+    "kappa_beta": [
+     0.25188360924908204,
+     0.37030009508471684
+    ],
+    "kappa_lambda": [
+     0.3187764909246157,
+     0.419651898309601
+    ]
+   },
+   "held": {},
+   "n_frames": 1915,
+   "n_true_detections": 796
+  },
+  "s5_fn050": {
+   "channel": "--override sensor_detector.fn_rate=0.5",
+   "constants": "--override detection_likelihood.false_positive_rate=0.001 --override detection_likelihood.detection_gain=0.8519 --override detection_likelihood.h_slope=2.81 --override detection_likelihood.h_area0=0.0001 --override planner.kappa_beta=0.3024 --override planner.kappa_lambda=0.3665",
+   "fitted": {
+    "false_positive_rate": 0.001000000000038664,
+    "detection_gain": 0.8519201794642436,
+    "h_slope": 2.8104906897026507,
+    "h_area0": 0.0001,
+    "kappa_beta": 0.30242907661218243,
+    "kappa_lambda": 0.3665170954159481
+   },
+   "ci95": {
+    "false_positive_rate": [
+     0.0010000000000069179,
+     0.0024472533972499638
+    ],
+    "detection_gain": [
+     0.8021883716978087,
+     0.9106242481551181
+    ],
+    "h_slope": [
+     1.6063685848715248,
+     100.0
+    ],
+    "h_area0": [
+     0.0001,
+     0.0001
+    ],
+    "kappa_beta": [
+     0.2419248060832868,
+     0.3608107132975844
+    ],
+    "kappa_lambda": [
+     0.3180926221869748,
+     0.4141111558397846
+    ]
+   },
+   "held": {},
+   "n_frames": 1915,
+   "n_true_detections": 544
+  },
+  "s5_fn075": {
+   "channel": "--override sensor_detector.fn_rate=0.75",
+   "constants": "--override detection_likelihood.false_positive_rate=0.001 --override detection_likelihood.detection_gain=0.4639 --override detection_likelihood.h_slope=3.063 --override detection_likelihood.h_area0=0.0001 --override planner.kappa_beta=0.3112 --override planner.kappa_lambda=0.3773",
+   "fitted": {
+    "false_positive_rate": 0.0010000000000211264,
+    "detection_gain": 0.46391718688758526,
+    "h_slope": 3.063344887358275,
+    "h_area0": 0.0001,
+    "kappa_beta": 0.31121766242426663,
+    "kappa_lambda": 0.37729746314169044
+   },
+   "ci95": {
+    "false_positive_rate": [
+     0.0010000000000074136,
+     0.001969748982883523
+    ],
+    "detection_gain": [
+     0.41017632290305095,
+     0.5442740690908477
+    ],
+    "h_slope": [
+     1.1555291282340099,
+     100.0
+    ],
+    "h_area0": [
+     0.0001,
+     0.0001
+    ],
+    "kappa_beta": [
+     0.23080144043021597,
+     0.3854786286468213
+    ],
+    "kappa_lambda": [
+     0.32189341374529556,
+     0.4306859003553251
+    ]
+   },
+   "held": {},
+   "n_frames": 1915,
+   "n_true_detections": 259
+  },
+  "sam3_t050": {
+   "channel": "--override sensor_detector.mode=open_set --override sensor_detector.open_set_min_score=0.5 --override sensor_detector.open_set_mask_select=score",
+   "constants": "--override detection_likelihood.false_positive_rate=0.007575 --override detection_likelihood.detection_gain=0.999 --override detection_likelihood.h_slope=2.905 --override detection_likelihood.h_area0=0.0007296 --override planner.kappa_beta=0.161 --override planner.kappa_lambda=0.3562",
+   "fitted": {
+    "false_positive_rate": 0.007575417075070133,
+    "detection_gain": 0.9989999999999295,
+    "h_slope": 2.904824203053933,
+    "h_area0": 0.0007295808656238051,
+    "kappa_beta": 0.16099572876930512,
+    "kappa_lambda": 0.35621816270169754
+   },
+   "ci95": {
+    "false_positive_rate": [
+     0.003707482501632686,
+     0.011946399808915237
+    ],
+    "detection_gain": [
+     0.9989999999998816,
+     0.9989999999999613
+    ],
+    "h_slope": [
+     2.2343671148450306,
+     4.329501441728548
+    ],
+    "h_area0": [
+     0.0005903173661583057,
+     0.0008939639656535183
+    ],
+    "kappa_beta": [
+     0.050310805263177195,
+     0.23972274638383315
+    ],
+    "kappa_lambda": [
+     0.3112864131244408,
+     0.4278379501206016
+    ]
+   },
+   "held": {},
+   "n_frames": 1915,
+   "n_true_detections": 549
+  },
+  "sam3_t060": {
+   "channel": "--override sensor_detector.mode=open_set --override sensor_detector.open_set_min_score=0.6 --override sensor_detector.open_set_mask_select=score",
+   "constants": "--override detection_likelihood.false_positive_rate=0.006013 --override detection_likelihood.detection_gain=0.999 --override detection_likelihood.h_slope=2.743 --override detection_likelihood.h_area0=0.0009402 --override planner.kappa_beta=0.1808 --override planner.kappa_lambda=0.3331",
+   "fitted": {
+    "false_positive_rate": 0.006012537274724796,
+    "detection_gain": 0.998999999999889,
+    "h_slope": 2.7429191824230825,
+    "h_area0": 0.0009402350697918688,
+    "kappa_beta": 0.18083405471736924,
+    "kappa_lambda": 0.33314286384706865
+   },
+   "ci95": {
+    "false_positive_rate": [
+     0.0024249067780985306,
+     0.010137244408338407
+    ],
+    "detection_gain": [
+     0.9989990020127874,
+     0.9989999999999408
+    ],
+    "h_slope": [
+     2.091640012006572,
+     4.453995196613716
+    ],
+    "h_area0": [
+     0.0007718116757377024,
+     0.0011420253193025873
+    ],
+    "kappa_beta": [
+     0.07817697798293101,
+     0.2570321316751463
+    ],
+    "kappa_lambda": [
+     0.2833297033718785,
+     0.4078900249771676
+    ]
+   },
+   "held": {},
+   "n_frames": 1915,
+   "n_true_detections": 484
+  },
+  "sam3_t070": {
+   "channel": "--override sensor_detector.mode=open_set --override sensor_detector.open_set_min_score=0.7 --override sensor_detector.open_set_mask_select=score",
+   "constants": "--override detection_likelihood.false_positive_rate=0.004341 --override detection_likelihood.detection_gain=0.999 --override detection_likelihood.h_slope=2.925 --override detection_likelihood.h_area0=0.001219 --override planner.kappa_beta=0.1903 --override planner.kappa_lambda=0.3159",
+   "fitted": {
+    "false_positive_rate": 0.004340994561002147,
+    "detection_gain": 0.9989999999998462,
+    "h_slope": 2.92460373668385,
+    "h_area0": 0.0012186365425386177,
+    "kappa_beta": 0.19034760153176533,
+    "kappa_lambda": 0.3158706259441237
+   },
+   "ci95": {
+    "false_positive_rate": [
+     0.001,
+     0.008702825979345392
+    ],
+    "detection_gain": [
+     0.9989990020069129,
+     0.9989999999999367
+    ],
+    "h_slope": [
+     2.404400418930323,
+     4.432935343366709
+    ],
+    "h_area0": [
+     0.0009709285128940143,
+     0.0015728957360107345
+    ],
+    "kappa_beta": [
+     0.08690834886348267,
+     0.2735469908453774
+    ],
+    "kappa_lambda": [
+     0.25307438977388275,
+     0.38918242067997794
+    ]
+   },
+   "held": {},
+   "n_frames": 1915,
+   "n_true_detections": 423
+  },
+  "sam3_t080": {
+   "channel": "--override sensor_detector.mode=open_set --override sensor_detector.open_set_min_score=0.8 --override sensor_detector.open_set_mask_select=score",
+   "constants": "--override detection_likelihood.false_positive_rate=0.003319 --override detection_likelihood.detection_gain=0.999 --override detection_likelihood.h_slope=3.237 --override detection_likelihood.h_area0=0.00171 --override planner.kappa_beta=0.197 --override planner.kappa_lambda=0.2886",
+   "fitted": {
+    "false_positive_rate": 0.0033192464973022602,
+    "detection_gain": 0.9989999999998737,
+    "h_slope": 3.2368074071564887,
+    "h_area0": 0.0017100008098060056,
+    "kappa_beta": 0.19698993843375545,
+    "kappa_lambda": 0.28861778025140233
+   },
+   "ci95": {
+    "false_positive_rate": [
+     0.001,
+     0.007477647398578144
+    ],
+    "detection_gain": [
+     0.9989990020379136,
+     0.9989999999999268
+    ],
+    "h_slope": [
+     2.6785367012333996,
+     4.345187839558721
+    ],
+    "h_area0": [
+     0.001424507563987216,
+     0.0020152229887817866
+    ],
+    "kappa_beta": [
+     0.09715105540839823,
+     0.28004615693498564
+    ],
+    "kappa_lambda": [
+     0.23923220446235047,
+     0.3471324200490428
+    ]
+   },
+   "held": {},
+   "n_frames": 1915,
+   "n_true_detections": 362
+  },
+  "sam3_t090": {
+   "channel": "--override sensor_detector.mode=open_set --override sensor_detector.open_set_min_score=0.9 --override sensor_detector.open_set_mask_select=score",
+   "constants": "--override detection_likelihood.false_positive_rate=0.001372 --override detection_likelihood.detection_gain=0.9745 --override detection_likelihood.h_slope=3.592 --override detection_likelihood.h_area0=0.003425 --override planner.kappa_beta=0.2045 --override planner.kappa_lambda=0.2423",
+   "fitted": {
+    "false_positive_rate": 0.0013717477228069555,
+    "detection_gain": 0.9744512676192865,
+    "h_slope": 3.5919096930719694,
+    "h_area0": 0.0034250388274257733,
+    "kappa_beta": 0.20446337851122598,
+    "kappa_lambda": 0.24233406753959535
+   },
+   "ci95": {
+    "false_positive_rate": [
+     0.0010000000000000243,
+     0.0031905331197247654
+    ],
+    "detection_gain": [
+     0.892351881947573,
+     0.999
+    ],
+    "h_slope": [
+     2.8932010494157137,
+     5.2046694567663385
+    ],
+    "h_area0": [
+     0.0029648827678452044,
+     0.0038700532376215297
+    ],
+    "kappa_beta": [
+     0.0799054285208816,
+     0.29063987170683897
+    ],
+    "kappa_lambda": [
+     0.19843122981903094,
+     0.30135798987273776
+    ]
+   },
+   "held": {},
+   "n_frames": 1915,
+   "n_true_detections": 205
+  }
+ }
+}

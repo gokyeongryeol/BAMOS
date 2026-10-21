@@ -1,0 +1,3 @@
+detection_likelihood: {false_positive_rate: 0.2643, detection_gain: 0.999, h_slope: 87.29, h_area0: 5.299e-05}
+planner: {kappa_beta: 0.1561, kappa_lambda: 0.1793}
+mapping: {occupancy_model: [0.06145, 0.8049, 0.0007591]}

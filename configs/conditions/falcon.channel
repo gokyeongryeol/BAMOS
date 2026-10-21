@@ -1,0 +1,1 @@
+--override sensor_detector.mode=open_set --override sensor_detector.open_set_mask_select=largest

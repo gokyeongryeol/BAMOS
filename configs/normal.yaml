@@ -1,0 +1,52 @@
+# BAMOS (Bayesian Active Mask-based Object Search) on the Isaac Sim benchmark. Single source of truth for runs and renders.
+experiment: {include_robot_start_view: true, additional_robot_view_budget: 60, forbid_exact_revisit: true,
+  device: 'cuda:0', dtype: float64}
+environment:
+  backend: isaac
+  archetypes: [warehouse_aisles, industrial_workcell, dense_storage, large_warehouse]
+  isaac: {host: 127.0.0.1, port: 5555, render_cache_dir: null, validate_against_analytic: true}
+cameras:
+  robot:
+    z_world_m: 1.5
+    x_step_m: 0.5
+    y_step_m: 0.5
+    lattice_offset_m: 0.0137
+    yaw_degrees: [0, 45, 90, 135, 180, 225, 270, 315]
+    # +30 is dropped: 22 of all success-capable poses over the 270 test episodes, none an episode depends on
+    pitch_degrees: [-30, 0]
+    robot_clearance_m: 0.25
+    width: 320
+    height: 240
+    hfov_deg: 70.0
+    near_m: 0.1
+    far_m: 15.0
+# the 0.1 m lattice the target-location candidates are drawn from (spec 5)
+# voxel_size_m: the target belief's voxel; occupancy_*: the Bernoulli voxel belief of spec 4 (its own 0.05 m grid;
+# [p0, q_occ, q_free] fitted on calib in stage 2; depth rays every 2nd pixel; the last 0.1 m of a ray to a front-face
+# point ignored)
+mapping: {voxel_size_m: 0.1, grid_offset_m: 0.0037, occupancy_voxel_m: 0.05, occupancy_model: [0.03, 0.6, 0.005],
+  occupancy_pixel_stride: 2, occupancy_ray_margin_m: 0.1}
+target:
+  center_stride_voxels: 2
+  candidate_z_range_m: [0.15, 1.75]
+  candidate_wall_clearance_m: 0.15
+ablation: {use_kappa: true, use_nodet: true, use_voxel_belief: true}
+detection_likelihood: {detection_gain: 0.95, false_positive_rate: 0.01, h_area0: 0.0001, h_slope: 3.0}
+sensor_detector: {mode: rendered_threshold, min_visible_fraction: 0.01, min_normalized_area: 0.0001}
+planner: {tie_tolerance: 1.0e-12, ig_negative_tolerance: 1.0e-09, motion_scale_m: 5.0,
+  # "ig": U = I(Z;X), the detection event's mutual information (spec 9)
+  utility_mode: ig,
+  # size hypotheses (spec 3): size scales s = sqrt(surface area / 4) (Cauchy), so s^2 is the mean silhouette area;
+  # multiples of the 0.1 m voxel, each exactly one benchmark target size (a cube and a sphere per s)
+  size_grid_m: [0.1, 0.2, 0.3],
+  # kappa (spec 8.2): m = x_v + beta s n, Sigma = (lambda s)^2 I; mixed with a uniform false-positive component
+  kappa_beta: 0.3333, kappa_lambda: 0.2887}
+stop: {success_radius_m: 0.2, tau_pi: 0.5, present_views: 1,
+  mode: joint}                     # "joint": an episode ends at its declaration (spec 10); "none": log it, run on
+# success: MAP within 0.2 m at the declaration. Solvability: some pose where the oracle detects the target with
+# visible fraction >= 0.5 and at least 3 target pixels
+evaluation: {max_center_error_m: 0.2, min_gt_visible_fraction: 0.5, min_gt_area_px: 3}
+benchmark: {test_layouts_per_archetype: 5, test_episodes_per_layout: 20}
+# difficulty (2026-10-01): no fixed camera, the oracle does not see the target from the start view, an occluder in
+# front of the target, a 1.2 m approach limit, targets 0.1 m off the candidate lattice
+difficulty: {occluder_cover: 0.75, min_robot_distance_m: 1.2, lattice_offset_m: 0.1}

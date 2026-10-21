@@ -1,0 +1,18 @@
+{
+ "frozen_at": "2026-10-07T10:49:57+00:00",
+ "code_commit_of_fits": "24a4b54",
+ "conditions": {
+  "falcon": {
+   "channel": "--override sensor_detector.mode=open_set --override sensor_detector.open_set_mask_select=largest",
+   "constants": "--override detection_likelihood.false_positive_rate=0.08724 --override detection_likelihood.detection_gain=0.999 --override detection_likelihood.h_slope=3.187 --override detection_likelihood.h_area0=0.0001934 --override planner.kappa_beta=-0.02966 --override planner.kappa_lambda=0.5691"
+  },
+  "s8_fp005": {
+   "channel": "--override sensor_detector.fp_rate=0.05",
+   "constants": "--override detection_likelihood.false_positive_rate=0.029 --override detection_likelihood.detection_gain=0.999 --override detection_likelihood.h_slope=3.755 --override detection_likelihood.h_area0=0.0001 --override planner.kappa_beta=0.3311 --override planner.kappa_lambda=0.363"
+  },
+  "s8_fp010": {
+   "channel": "--override sensor_detector.fp_rate=0.1",
+   "constants": "--override detection_likelihood.false_positive_rate=0.05193 --override detection_likelihood.detection_gain=0.999 --override detection_likelihood.h_slope=3.86 --override detection_likelihood.h_area0=0.0001 --override planner.kappa_beta=0.3313 --override planner.kappa_lambda=0.3623"
+  }
+ }
+}

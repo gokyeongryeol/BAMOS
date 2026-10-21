@@ -1,0 +1,1 @@
+["sensor_detector.mode=open_set", "sensor_detector.open_set_mask_select=score", "sensor_detector.open_set_min_score=0.9"]
