@@ -1,4 +1,4 @@
-"""HSSD ObjectNav with teleport poses: the client of hssd_server/server.py and the Environment the runner sees.
+"""HSSD ObjectNav with teleport poses: the client of servers/hssd_server.py and the Environment the runner sees.
 
 The scene, the episode, the navmesh and the camera are the HSSD ObjectNav benchmark's (habitat-lab objectnav_hssd-hab.yaml);
 the agent is not walked but placed at the chosen pose, as the Isaac benchmark's robot camera is.

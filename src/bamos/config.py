@@ -80,7 +80,7 @@ DEFAULT_CONFIG: dict = {
     # detect the target from the robot start view
     "difficulty": {"occluder_cover": 0.75, "min_robot_distance_m": 1.2, "lattice_offset_m": 0.1},
     # HSSD ObjectNav with teleport poses (environment.backend: habitat; environment/hssd_env.py, planning/hssd_runner.py,
-    # hssd_server/server.py). Unused by the Isaac benchmark.
+    # servers/hssd_server.py). Unused by the Isaac benchmark.
     "hssd": {
         "host": "127.0.0.1", "split": "val",
         # pose positions: navmesh points on this xz lattice, on the start's navmesh island; the camera is the benchmark's

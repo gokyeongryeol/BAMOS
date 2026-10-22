@@ -2,7 +2,7 @@
 
     uv run python scripts/hssd/calibrate.py select --out results/hssd/calib --n-scenes 40 --seed 0   # writes scenes.txt
     # a teleport server on the train split, those scenes only:
-    CUDA_VISIBLE_DEVICES=1 <habitat python> hssd_server/server.py --port 5810 --split train \\
+    CUDA_VISIBLE_DEVICES=1 <habitat python> servers/hssd_server.py --port 5810 --split train \\
         --scenes $(cat results/hssd/calib/scenes.txt)
     uv run python scripts/hssd/calibrate.py collect --out results/hssd/calib --port 5810 [--shard i/n]
     uv run python scripts/hssd/calibrate.py occupancy --out results/hssd/calib --port 5810

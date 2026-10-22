@@ -1,7 +1,7 @@
 """Open-set detection channel: a text-prompted segmentation model in place of the oracle threshold detector.
 
-The model runs in its own process (`falcon_server/server.py` or `sam3_server/server.py`, in the detector's virtualenv) and speaks
-the Isaac server's framing, so `DetectorClient` reuses that transport. The planner receives what the model
+The model runs in its own process (`servers/falcon_server.py` or `servers/sam3_server.py`, in the detector's
+virtualenv) and speaks the Isaac server's framing, so `DetectorClient` reuses that transport. The planner receives what the model
 returned and nothing else: DET with one returned mask (the largest for Falcon, the highest-scoring for SAM 3;
 sensor_detector.open_set_mask_select), NO_DET when no mask survives, MISSING when the
 model reported an error for the frame (spec 2: MISSING updates no belief). Everything computed against the
@@ -20,7 +20,7 @@ from bamos.environment.isaac_env import IsaacClient
 from bamos.mapping.camera import CameraModel
 from bamos.observation.types import DetectionStatus
 
-# The task's text query per target type. It describes the rendered material (isaac_server/server.py PALETTE),
+# The task's text query per target type. It describes the rendered material (servers/isaac_server.py PALETTE),
 # which is the only appearance cue an open-vocabulary model has to go on.
 FALCON_MODEL_ID = "tiiuae/Falcon-Perception"
 

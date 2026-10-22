@@ -46,7 +46,7 @@ for ((i = 0; i < NI; i++)); do
   p=$((IB + i)); g=${IG[$((i % ${#IG[@]}))]}; iports+=("$p")
   : > "$LOG/isaac_$p.log"  # truncate first: a stale "ready on" line must not pass the wait below
   (unset CUDA_VISIBLE_DEVICES; ACCEPT_EULA=Y OMNI_KIT_ACCEPT_EULA=YES nohup "$ISAAC_PY" \
-     isaac_server/server.py --port "$p" --gpu "$g" > "$LOG/isaac_$p.log" 2>&1 &)
+     servers/isaac_server.py --port "$p" --gpu "$g" > "$LOG/isaac_$p.log" 2>&1 &)
 done
 for ((i = 0; i < NF; i++)); do
   p=$((FB + i)); g=${FG[$((i % ${#FG[@]}))]}; fports+=("$p")
@@ -54,11 +54,11 @@ for ((i = 0; i < NF; i++)); do
   # the redirection sits on the subshell so no descendant keeps this script's stdout open
   if [ "$DETECTOR" = sam3 ]; then
     (cd "$SAM3_DIR" && HF_HUB_OFFLINE=1 exec nohup ${SAM3_PY:-.venv/bin/python} \
-       "$ROOT/sam3_server/server.py" --port "$p" --device "cuda:$g") > "$LOG/detector_$p.log" 2>&1 < /dev/null &
+       "$ROOT/servers/sam3_server.py" --port "$p" --device "cuda:$g") > "$LOG/detector_$p.log" 2>&1 < /dev/null &
   else
     # shellcheck disable=SC2086
     (cd "$FALCON_DIR" && exec nohup ${FALCON_PY:-uv run python} \
-       "$ROOT/falcon_server/server.py" --port "$p" --device "cuda:$g") > "$LOG/detector_$p.log" 2>&1 < /dev/null &
+       "$ROOT/servers/falcon_server.py" --port "$p" --device "cuda:$g") > "$LOG/detector_$p.log" 2>&1 < /dev/null &
   fi
 done
 for p in "${iports[@]}"; do until grep -q "ready on" "$LOG/isaac_$p.log" 2>/dev/null; do sleep 3; done; done
