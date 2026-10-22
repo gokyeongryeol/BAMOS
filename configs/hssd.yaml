@@ -1,7 +1,7 @@
-# BAMOS on HSSD ObjectNav (val) with teleport poses: habitat_server/teleport_server.py, environment/habitat_env.py,
-# planning/hssd_runner.py, scripts/run_hssd.py. The model is the Isaac benchmark's (configs/normal.yaml); this file sets the
+# BAMOS on HSSD ObjectNav (val) with teleport poses: hssd_server/server.py, environment/hssd_env.py,
+# planning/hssd_runner.py, scripts/hssd/run.py. The model is the Isaac benchmark's (configs/isaac.yaml); this file sets the
 # HSSD world. The constants below are the oracle channel's train fit (evaluation: val); runs take each channel's fit with
-# scripts/run_hssd.py --fit results/hssd/calib/<channel>.
+# scripts/hssd/run.py --fit results/hssd/calib/<channel>.
 # budget 200 views (2026-10-09): success is read at every k <= 200 (anytime curves; ~13 benchmark actions per view, so
 # 500 actions ~ 38 views); a run with a larger budget replays a smaller one's views exactly
 experiment: {include_robot_start_view: true, additional_robot_view_budget: 200, forbid_exact_revisit: true,
@@ -15,13 +15,13 @@ cameras:
     yaw_degrees: [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330], pitch_degrees: [0, -30]}
 # candidate cells 0.25 m (BeliefMapNav's voxel); the voxel belief on 0.1 m; depth rays every 4th pixel
 mapping: {voxel_size_m: 0.25, grid_offset_m: 0.0, occupancy_voxel_m: 0.1,
-  # fitted on train, v0.2.4 scene data, every floor's cells (scripts/hssd_calibrate.py occupancy; 214 episodes)
+  # fitted on train, v0.2.4 scene data, every floor's cells (scripts/hssd/calibrate.py occupancy; 214 episodes)
   occupancy_model: [0.06145, 0.8049, 0.0007591],
   occupancy_pixel_stride: 4, occupancy_ray_margin_m: 0.1,
   # depth nearer than 0.5 m (the benchmark sensor clips it): a hit at 0.5 m
   near_hits: true}
 target: {center_stride_voxels: 1}
-# fitted on train, v0.2.4 scene data (scripts/hssd_fit_constants.py, rule (a); 6413 frames of 214 episodes;
+# fitted on train, v0.2.4 scene data (scripts/hssd/fit_constants.py, rule (a); 6413 frames of 214 episodes;
 # eta_t and k at their bounds: the oracle is a step at a0); h_area0: the oracle's 150 valid-depth pixels of 640 x 480
 detection_likelihood: {detection_gain: 0.999, false_positive_rate: 0.0184, h_area0: 0.0004883, h_slope: 100}
 # size_grid_m is replaced by hssd.size_grid_by_category (per episode category)

@@ -5,7 +5,7 @@ import subprocess
 from pathlib import Path
 
 from bamos.environment.episodes import EpisodeSpec, build_episode
-from bamos.environment.isaac_client import IsaacClient, IsaacEnvironment
+from bamos.environment.isaac_env import IsaacClient, IsaacEnvironment
 from bamos.environment.open_set import OPEN_SET_QUERY
 from bamos.environment.sensor import DetectorConfig
 from bamos.planning.runner import camera_from_cfg
@@ -58,7 +58,7 @@ def detector_from_cfg(cfg: dict) -> DetectorConfig:
     )
 
 
-def build_env_for_spec(spec: EpisodeSpec, cfg: dict, manifest_dir: Path | None, isaac_client: IsaacClient | None,
+def build_env_for_spec(spec: EpisodeSpec, cfg: dict, manifest_dir: Path | None, isaac_env: IsaacClient | None,
                        detector_client=None):
     import json
 
@@ -71,7 +71,7 @@ def build_env_for_spec(spec: EpisodeSpec, cfg: dict, manifest_dir: Path | None, 
         with open(manifest_dir / f"{spec.episode_id}.json", "w") as f:
             json.dump(_jsonable(manifest), f)
     if cfg["environment"]["backend"] == "isaac":
-        env = IsaacEnvironment.wrap(env, cfg, isaac_client)
+        env = IsaacEnvironment.wrap(env, cfg, isaac_env)
     if env.detector.mode == "open_set":
         if detector_client is None:
             raise RuntimeError("sensor_detector.mode=open_set needs a detector client (--detector-ports)")

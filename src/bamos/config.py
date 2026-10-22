@@ -1,4 +1,4 @@
-"""Configuration: one YAML (configs/normal.yaml) merged over the defaults below, plus a content hash.
+"""Configuration: one YAML (configs/isaac.yaml) merged over the defaults below, plus a content hash.
 
 Every key a YAML or an override sets must exist in DEFAULT_CONFIG: a stale or misspelt key is an error, not a
 silently ignored setting."""
@@ -79,8 +79,8 @@ DEFAULT_CONFIG: dict = {
     # the target are infeasible; the target centre lattice_offset_m off the candidate lattice; and the oracle does not
     # detect the target from the robot start view
     "difficulty": {"occluder_cover": 0.75, "min_robot_distance_m": 1.2, "lattice_offset_m": 0.1},
-    # HSSD ObjectNav with teleport poses (environment.backend: habitat; environment/habitat_env.py, planning/hssd_runner.py,
-    # habitat_server/teleport_server.py). Unused by the Isaac benchmark.
+    # HSSD ObjectNav with teleport poses (environment.backend: habitat; environment/hssd_env.py, planning/hssd_runner.py,
+    # hssd_server/server.py). Unused by the Isaac benchmark.
     "hssd": {
         "host": "127.0.0.1", "split": "val",
         # pose positions: navmesh points on this xz lattice, on the start's navmesh island; the camera is the benchmark's
@@ -108,7 +108,7 @@ DEFAULT_CONFIG: dict = {
         # the oracle detector: a goal instance with >= oracle_min_px pixels of valid depth is a detection
         "oracle_min_px": 150,
         # size hypotheses per category: the {p10, p50, p90} of the train goal instances' box size scale sqrt(area / 4)
-        # (scripts/hssd_scene_stats.py, 122 train scenes, 3775 instances, v0.2.4 scene data)
+        # (scripts/hssd/scene_stats.py, 122 train scenes, 3775 instances, v0.2.4 scene data)
         "size_grid_by_category": {"bed": [1.72, 2.06, 2.47], "chair": [0.72, 0.84, 1.23], "couch": [1.26, 1.58, 2.45],
                                   "potted_plant": [0.28, 0.64, 1.47], "toilet": [0.57, 0.73, 0.79], "tv": [0.63, 0.77, 1.21]},
         # success: the declared cell's centre within evaluation.max_center_error_m of a goal instance's box; also logged:
@@ -142,7 +142,7 @@ def check_keys(override: dict, base: dict = DEFAULT_CONFIG, where: str = "") -> 
             check_keys(v, base[k], path)
 
 
-def load_config(path: str | Path | None = "configs/normal.yaml", overrides: list[dict] | None = None) -> dict:
+def load_config(path: str | Path | None = "configs/isaac.yaml", overrides: list[dict] | None = None) -> dict:
     cfg = copy.deepcopy(DEFAULT_CONFIG)
     if path is not None:
         with open(path) as f:

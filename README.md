@@ -14,21 +14,21 @@ Python) and `OBJECTNAV_DATA` (HSSD ObjectNav episodes and hssd-hab v0.2.4 scenes
 
 ## Isaac Sim
 ```bash
-C=configs/conditions
-uv run python scripts/run_experiment.py --methods bamos --config configs/normal.yaml --split test --steps \
+C=configs/isaac_conditions
+uv run python scripts/isaac/run.py --methods bamos --config configs/isaac.yaml --split test --steps \
   --override stop.mode=joint $(cat $C/common.args) $(cat $C/oracle.channel) $(cat $C/oracle.constants) \
   --gpus 0 --workers 4 --out results/raw/test/a_bamos
 ```
-For SAM 3 or Falcon Perception, start the render and detector servers with `scripts/launch_open_set.sh` and pass
-`--backend isaac` with the printed ports. The full pipeline runs `scripts/rerun_stage*` in order (calibration, fit,
-selection, freeze, test); `configs/conditions/` holds the frozen constants.
+For SAM 3 or Falcon Perception, start the render and detector servers with `scripts/isaac/launch_servers.sh` and pass
+`--backend isaac` with the printed ports. The full pipeline runs `scripts/isaac/stage*` in order (calibration, fit,
+selection, freeze, test); `configs/isaac_conditions/` holds the frozen constants.
 
 ## HSSD ObjectNav
 ```bash
-bash scripts/make_hssd_root.sh
-bash scripts/launch_hssd.sh start 1 0
-uv run python scripts/run_hssd.py --port 5800 --gpu 0 --fit configs/hssd_conditions/oracle --out results/hssd/val/oracle_bamos
-bash scripts/launch_hssd.sh stop 1
+bash scripts/hssd/make_data_root.sh
+bash scripts/hssd/launch_servers.sh start 1 0
+uv run python scripts/hssd/run.py --port 5800 --gpu 0 --fit configs/hssd_conditions/oracle --out results/hssd/val/oracle_bamos
+bash scripts/hssd/launch_servers.sh stop 1
 ```
-`configs/hssd_conditions/` holds each detector channel's fit on train. `scripts/hssd_*` run the calibration and the val
-arms, and `scripts/hssd_summary.py` summarizes them.
+`configs/hssd_conditions/` holds each detector channel's fit on train. `scripts/hssd/` runs the calibration and the val
+arms, and `scripts/hssd/summary.py` summarizes them.

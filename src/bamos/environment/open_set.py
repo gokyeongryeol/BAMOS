@@ -1,6 +1,6 @@
 """Open-set detection channel: a text-prompted segmentation model in place of the oracle threshold detector.
 
-The model runs in its own process (`detector_server/falcon_server.py` or `sam3_server.py`, in the detector's virtualenv) and speaks
+The model runs in its own process (`falcon_server/server.py` or `sam3_server/server.py`, in the detector's virtualenv) and speaks
 the Isaac server's framing, so `DetectorClient` reuses that transport. The planner receives what the model
 returned and nothing else: DET with one returned mask (the largest for Falcon, the highest-scoring for SAM 3;
 sensor_detector.open_set_mask_select), NO_DET when no mask survives, MISSING when the
@@ -16,7 +16,7 @@ from pathlib import Path
 
 import numpy as np
 
-from bamos.environment.isaac_client import IsaacClient
+from bamos.environment.isaac_env import IsaacClient
 from bamos.mapping.camera import CameraModel
 from bamos.observation.types import DetectionStatus
 
@@ -121,7 +121,7 @@ def open_set_observe(client: DetectorClient, query: str, frame_key: str, rgb: np
     if min_score > 0.0:
         rec["n_below_score"] = n_below
     if record_instances:
-        # calibration only (scripts/calibrate_channel.py): every returned instance, so a score threshold or
+        # calibration only (scripts/isaac/calibrate.py): every returned instance, so a score threshold or
         # a selection rule can be refitted offline. [area_px, score or -1, IoU with the GT mask, world centroid of
         # its valid depth pixels (None below n_min = 3, as kappa)]
         inter = masks.reshape(len(masks), -1) & gt_mask.reshape(1, -1) if len(masks) else np.zeros((0, 1), bool)

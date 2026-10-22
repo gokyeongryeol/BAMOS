@@ -1,4 +1,4 @@
-"""The episode runner (planning/runner.py) on HSSD ObjectNav with teleport poses (environment/habitat_env.py).
+"""The episode runner (planning/runner.py) on HSSD ObjectNav with teleport poses (environment/hssd_env.py).
 
 BAMOS itself is unchanged: the belief over (cell, size), its DET / NO_DET updates with r and kappa, the voxel belief's
 transmittance gate, I(Z;X), the stop rule with its present view. What this module sets is the world it runs in:
@@ -9,21 +9,21 @@ transmittance gate, I(Z;X), the stop rule with its present view. What this modul
   known-shape voxel (a horizontal segment at the cell's height), and not inside the known shape.
 - Size hypotheses: the episode category's (hssd.size_grid_by_category).
 - The voxel belief starts from the known shape (stage, windows, railings, stairs, doors) as opaque voxels.
-- r on the cells within reach of each camera position (planning/local_scorer.py).
+- r on the cells within reach of each camera position (planning/hssd_scorer.py).
 - The next pose: a pose position at navmesh geodesic <= max_geodesic_m from the current one whose floor was seen in an
   earlier frame (an up-facing depth point near its floor surface; FloorSeenMap), at any yaw and pitch; a pose already
   taken is not a candidate (experiment.forbid_exact_revisit).
-- Evaluation against every goal instance (evaluation/objectnav_evaluator.py).
+- Evaluation against every goal instance (evaluation/hssd_evaluator.py).
 """
 from __future__ import annotations
 
 import numpy as np
 
 from bamos.belief.voxel_belief import KnownShapeVoxelBelief
-from bamos.evaluation.objectnav_evaluator import ObjectNavEvaluator
+from bamos.evaluation.hssd_evaluator import ObjectNavEvaluator
 from bamos.mapping.grid import VoxelGrid
 from bamos.observation.types import PlannerObservation
-from bamos.planning.local_scorer import LocalScorer, reach_of
+from bamos.planning.hssd_scorer import LocalScorer, reach_of
 from bamos.planning.runner import EpisodeResult, EpisodeRunner
 from bamos.planning.scorer import ScorerConfig
 from bamos.visibility.engine import EngineConfig

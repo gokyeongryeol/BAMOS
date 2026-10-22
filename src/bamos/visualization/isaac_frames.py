@@ -9,7 +9,7 @@ import os
 
 import numpy as np
 
-from bamos.environment.isaac_client import IsaacClient
+from bamos.environment.isaac_env import IsaacClient
 
 
 class IsaacFramer:
