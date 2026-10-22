@@ -1,12 +1,8 @@
-"""Figure 2 of the paper: what BAMOS represents and what one non-detection does.
+"""The paper's method figure: the BAMOS loop, in three columns: what the robot observes, what it believes, what it
+decides. The observation model r links the beliefs to the three decisions; the detector's event Z feeds the update,
+which writes the target belief.
 
-    python3 scripts/figures/method_loop.py [--out results/figures] [--copy DIR]
-
-(a) the loop, in three columns: what the robot observes, what it believes, what it decides. The observation model r
-    links the beliefs to the three decisions; the detector's event Z feeds the update, which writes the target belief.
-(b) a toy, drawn top-down above its numbers: five candidate cells, three in plain view, one behind an occluder, one
-    outside the field of view. One non-detection multiplies each cell by 1 - r and renormalises (Eq. 4), so the belief
-    moves to the two cells the camera could not see.
+    python3 scripts/figures/method_loop.py [--out results/figures] [--copy DIR]    # writes fig2_loop.{png,pdf}
 """
 from __future__ import annotations
 
@@ -14,8 +10,6 @@ import argparse
 import shutil
 import sys
 from pathlib import Path
-
-import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import fig_style as S  # noqa: E402
@@ -109,104 +103,24 @@ def loop_panel(ax):
                 arrowprops=dict(arrowstyle="-|>", lw=0.8, color=LINE, shrinkA=0, shrinkB=0, mutation_scale=7))
 
 
-def toy_panel(fig, gs):
-    from matplotlib.patches import Polygon, Rectangle
-    sub = gs.subgridspec(2, 1, height_ratios=[1.0, 1.25], hspace=0.12)
-    ax = fig.add_subplot(sub[0])
-    bx = fig.add_subplot(sub[1])
-    r = np.array([0.9, 0.9, 0.05, 0.9, 0.006])
-    status = ["seen", "seen", "hidden", "seen", "outside"]
-    ticks = ["seen", "seen", "hidden", "seen", "out"]
-    prior = np.full(5, 0.2)
-    post = prior * (1 - r)
-    post /= post.sum()
-    xs = np.arange(5)
-    # top: the scene, top-down; the camera below, the cells in a row above it
-    cam = (1.5, -1.55)
-    ax.add_patch(Polygon([cam, (-0.6, 1.2), (3.6, 1.2)], closed=True, fc="#fff3c4", ec="#e0b400", lw=0.6, zorder=0))
-    ax.plot(*cam, marker="^", ms=6, color=S.INK, zorder=4)
-    ax.text(cam[0] + 0.25, cam[1], "camera", fontsize=S.FS - 2, va="center", color=S.INK)
-    ax.add_patch(Rectangle((1.62, -0.02), 0.76, 0.2, fc="#6b6b6b", ec="none", zorder=3))
-    ax.text(2.0, -0.3, "occluder", fontsize=S.FS - 2.2, ha="center", va="center", color="#555555")
-    for x, st in zip(xs, status):
-        fc = {"seen": "#d6e6f5", "hidden": "#cfcfcf", "outside": "#ffffff"}[st]
-        ax.add_patch(Rectangle((x - 0.3, 0.45), 0.6, 0.6, fc=fc, ec="#555555", lw=0.6, zorder=2))
-    for x, rr in zip(xs, r):
-        ax.text(x, 1.42, f"{rr:.2g}", ha="center", va="center", fontsize=S.FS - 2.2, color="#444444")
-    ax.text(-0.42, 1.42, "$r$", ha="right", va="center", fontsize=S.FS - 1.5, color="#444444")
-    ax.text(4.05, -0.35, "out of\nview", fontsize=S.FS - 2.2, ha="center", va="center", color="#555555")
-    ax.set_xlim(-0.75, 4.6)
-    ax.set_ylim(-1.85, 1.65)
-    ax.set_aspect("equal")
-    ax.set_anchor("N")
-    ax.axis("off")
-    ax.set_title("(b) One non-detection")
-    # bottom: belief before and after, aligned under the cells
-    w = 0.36
-    bx.bar(xs - w / 2, prior, w, color="#c9c9c9", label="before")
-    bx.bar(xs + w / 2, post, w, color="#1f5fa8", label="after one NO_DET")
-    for x, p in zip(xs, post):
-        if p < 0.1:
-            continue
-        bx.text(x + w / 2, p + 0.015, f"{p:.2f}", ha="center", va="bottom", fontsize=S.FS - 2.2, color="#1f5fa8")
-    bx.set_xlim(-0.75, 4.6)
-    bx.set_xticks(xs)
-    bx.set_xticklabels(ticks, fontsize=S.FS - 2.5, rotation=35, ha="right", rotation_mode="anchor")
-
-    bx.tick_params(axis="x", length=0, pad=2)
-    bx.set_ylim(0, 0.62)
-    bx.set_yticks([0, 0.2, 0.4])
-    bx.set_ylabel("target belief", labelpad=2)
-    bx.grid(axis="y")
-    bx.legend(loc="upper left", frameon=False, fontsize=S.FS - 1.8, handlelength=1.0, borderaxespad=0.0, ncol=2,
-              columnspacing=0.8, bbox_to_anchor=(0.0, 1.06))
-    return post, [ax, bx]
-
-
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default="results/figures")
     ap.add_argument("--copy", default="", help="a second directory to copy the png to")
-    ap.add_argument("--loop-only", action="store_true", help="panel (a) alone, as fig2_loop (the 4-page paper's Fig. 1)")
-    ap.add_argument("--toy-only", action="store_true", help="panel (b) alone, as appB_toy (an appendix figure)")
     a = ap.parse_args()
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     S.apply(plt)
-    if a.toy_only:
-        fig = plt.figure(figsize=(S.WIDTH * 0.42, 2.15))
-        post, tb = toy_panel(fig, fig.add_gridspec(1, 1)[0])
-        tb[0].set_title("One non-detection")
-        out = Path(a.out)
-        S.save(fig, out, "appB_toy")
-        if a.copy:
-            shutil.copy(out / "appB_toy.png", Path(a.copy) / "appB_toy.png")
-        print("toy posterior", np.round(post, 3))
-        return 0
-    if a.loop_only:
-        fig = plt.figure(figsize=(S.WIDTH * 0.72, 1.6))
-        la = fig.add_subplot(111)
-        loop_panel(la)
-        la.set_title("")
-        out = Path(a.out)
-        S.save(fig, out, "fig2_loop")
-        if a.copy:
-            shutil.copy(out / "fig2_loop.png", Path(a.copy) / "fig2_loop.png")
-        return 0
-    fig = plt.figure(figsize=(S.WIDTH, 2.15))
-    gs = fig.add_gridspec(1, 2, width_ratios=[2.85, 1], wspace=0.3)
-    la = fig.add_subplot(gs[0])
+    fig = plt.figure(figsize=(S.WIDTH * 0.72, 1.6))
+    la = fig.add_subplot(111)
     loop_panel(la)
-    post, tb = toy_panel(fig, gs[1])
-    S.divider(fig, la, tb)
+    la.set_title("")
     out = Path(a.out)
-    S.save(fig, out, "fig2_model")
+    S.save(fig, out, "fig2_loop")
     if a.copy:
-        shutil.copy(out / "fig2_model.png", Path(a.copy) / "fig2_model.png")
-    print("toy posterior", np.round(post, 3))
+        shutil.copy(out / "fig2_loop.png", Path(a.copy) / "fig2_loop.png")
     return 0
-
 
 if __name__ == "__main__":
     raise SystemExit(main())
