@@ -41,7 +41,6 @@ args = ap.parse_args()
 torch.cuda.set_device(args.device)  # Triton launches on the current device; the model lives on args.device
 setup_torch_config()
 # eager path: on this build the compiled path returned no masks on frames the eager path segments correctly
-# (scripts/calibrate_detector_run.py --compile)
 model, tokenizer, _ = load_and_prepare_model(hf_model_id=PERCEPTION_MODEL_ID, hf_revision="main", hf_local_dir=None,
                                              device=args.device, dtype="float32", compile=False)
 engine = PagedInferenceEngine(model, tokenizer, ImageProcessor(patch_size=16, merge_size=1), max_batch_size=2,

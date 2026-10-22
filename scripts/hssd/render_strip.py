@@ -3,8 +3,7 @@
     uv run python scripts/hssd/render_strip.py 102815835 3 --port 6100 --every 5 --label oracle --fit results/hssd/calib/oracle
         # writes results/figures/hssd_strip_<scene>_<episode>_<label>.png
 
-The panels of scripts/render_hssd_episode_steps.py without its curve and its change panel, one observation per row:
-obs 0, every --every-th observation, and the last one (the declaration).
+One observation per row: obs 0, every --every-th observation, and the last one (the declaration).
 
 Re-runs the episode with HssdEpisodeRunner on a teleport server (configs/hssd.yaml, optional --fit / --override as in
 scripts/hssd/run.py); with --check, the replay is compared against that run's step log (the same poses). Top: pi(v_hat) (the MAP
