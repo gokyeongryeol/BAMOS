@@ -100,13 +100,3 @@ class JsonlWriter:
 
     def close(self):
         self._f.close()
-
-
-def read_jsonl(path: Path) -> list[dict]:
-    out = []
-    with open(path) as f:
-        for line in f:
-            line = line.strip()
-            if line:
-                out.append(json.loads(line))
-    return out

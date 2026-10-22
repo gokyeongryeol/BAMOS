@@ -1,6 +1,6 @@
-"""The success definition, the anytime curve and the paired bootstrap the stage 6 analyses share (scripts/isaac/analyze_stage5.py,
-scripts/isaac/analyze_stage8.py, scripts/isaac/analyze_stage9_10.py, scripts/isaac/analyze_stage13.py, scripts/isaac/select_threshold.py, scripts/isaac/analyze_failures.py, the figure
-scripts); a library, run by none of them directly.
+"""The success definition, the anytime curve and the paired bootstrap the Isaac analyses share (analyze_stage5.py,
+analyze_stage8.py, analyze_stage9_10.py, analyze_stage13.py, select_threshold.py); a library, run by none of them
+directly.
 
 Every arm runs with the stop rule acting (stop.mode=joint): an episode ends at its declaration, the present view
 that confirms S_hat = 1 (planning/runner.py, spec 10), logged as declared_stop. success@B: the episode declared
