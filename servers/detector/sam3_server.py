@@ -1,9 +1,9 @@
-"""Open-set detection server: SAM 3 (Meta, SAM License) behind the same framing as servers/falcon_server.py
+"""Open-set detection server: SAM 3 (Meta, SAM License) behind the same framing as servers/detector/falcon_server.py
 (8-byte big-endian header length, JSON header, 8-byte payload length, npz payload). Commands: ping | detect | shutdown.
 
 Runs in its own virtualenv ($SAM3_DIR/.venv: torch + transformers), from the local Hugging Face cache:
 
-    cd $SAM3_DIR && HF_HUB_OFFLINE=1 .venv/bin/python <this repo>/servers/sam3_server.py --port 5610 --device cuda:0
+    cd $SAM3_DIR && HF_HUB_OFFLINE=1 .venv/bin/python <this repo>/servers/detector/sam3_server.py --port 5610 --device cuda:0
 
 `detect` takes {"query": str} and an `rgb` uint8 [H, W, 3] array and returns `masks` uint8 [n, H, W] at the image
 resolution, one per instance whose score passes --threshold (SAM 3's own operating point, 0.5 by default), sorted

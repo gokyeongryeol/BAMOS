@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# A data root for servers/hssd_server.py --data-root: data/datasets from the objectnav data, and
+# A data root for servers/environment/hssd_server.py --data-root: data/datasets from the objectnav data, and
 # data/scene_datasets/hssd-hab pointing at the hssd-hab v0.2.4 copy (config files at tag v0.2.4, GLBs linked to the
 # identical v0.2.5 files). The ObjectNav episodes were generated on v0.2.4 assets.
 #

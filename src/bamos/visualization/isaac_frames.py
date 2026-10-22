@@ -1,6 +1,7 @@
 """The coloured frames of figures: an episode's scene rendered by an Isaac server (walls, floor, anchors in their
-realistic colours, servers/isaac_server.py), while the episode itself may run on the analytic backend, which shares the
-geometry but has no colour. Used by the figure scripts only; the experiments choose their backend in the config."""
+realistic colours, servers/environment/isaac_server.py), while the episode itself may run on the analytic backend,
+which shares the geometry but has no colour. Used by the figure scripts only; the experiments choose their backend in
+the config."""
 from __future__ import annotations
 
 import hashlib

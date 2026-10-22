@@ -1,4 +1,4 @@
-# BAMOS on HSSD ObjectNav (val) with teleport poses: servers/hssd_server.py, environment/hssd_env.py,
+# BAMOS on HSSD ObjectNav (val) with teleport poses: servers/environment/hssd_server.py, environment/hssd_env.py,
 # planning/hssd_runner.py, scripts/hssd/run.py. The model is the Isaac benchmark's (configs/isaac.yaml); this file sets the
 # HSSD world. The constants below are the oracle channel's train fit (evaluation: val); runs take each channel's fit with
 # scripts/hssd/run.py --fit results/hssd/calib/<channel>.

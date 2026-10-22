@@ -1,7 +1,7 @@
 """Run BAMOS on HSSD ObjectNav (val) episodes with teleport poses against one teleport server.
 
     # the server (habitat env), one per worker
-    CUDA_VISIBLE_DEVICES=1 $HAB_PY servers/hssd_server.py --port 5800 --data-root results/cache/hssd_v024/root
+    CUDA_VISIBLE_DEVICES=1 $HAB_PY servers/environment/hssd_server.py --port 5800 --data-root results/cache/hssd_v024/root
     # the episodes: all of val, or a subset
     uv run python scripts/hssd/run.py --port 5800 --out results/hssd/my_run --gpu 0 [--scenes 102816600 --limit 3] [--steps]
 

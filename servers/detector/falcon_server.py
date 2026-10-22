@@ -4,7 +4,7 @@ length, JSON header, 8-byte payload length, npz payload). Commands: ping | detec
 Runs in the detector's own virtualenv (torch >= 2.11), NOT in the project env:
 
     cd $FALCON_DIR && uv run python \
-        <this repo>/servers/falcon_server.py --port 5600 --device cuda:0
+        <this repo>/servers/detector/falcon_server.py --port 5600 --device cuda:0
 
 ($FALCON_DIR: a checkout of Falcon Perception with its environment; scripts/isaac/launch_servers.sh starts the servers.)
 

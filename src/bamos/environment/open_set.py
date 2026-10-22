@@ -1,9 +1,9 @@
 """Open-set detection channel: a text-prompted segmentation model in place of the oracle threshold detector.
 
-The model runs in its own process (`servers/falcon_server.py` or `servers/sam3_server.py`, in the detector's
-virtualenv) and speaks the Isaac server's framing, so `DetectorClient` reuses that transport. The planner receives what the model
-returned and nothing else: DET with one returned mask (the largest for Falcon, the highest-scoring for SAM 3;
-sensor_detector.open_set_mask_select), NO_DET when no mask survives, MISSING when the
+The model runs in its own process (`servers/detector/falcon_server.py` or `servers/detector/sam3_server.py`, in the
+detector's virtualenv) and speaks the Isaac server's framing, so `DetectorClient` reuses that transport. The planner
+receives what the model returned and nothing else: DET with one returned mask (the largest for Falcon, the
+highest-scoring for SAM 3; sensor_detector.open_set_mask_select), NO_DET when no mask survives, MISSING when the
 model reported an error for the frame (spec 2: MISSING updates no belief). Everything computed against the
 ground truth here (IoU, centroid error, FN/FP flags) goes to `meta` for the evaluator and the failure
 analysis, never to the planner.
@@ -20,8 +20,8 @@ from bamos.environment.isaac_env import IsaacClient
 from bamos.mapping.camera import CameraModel
 from bamos.observation.types import DetectionStatus
 
-# The task's text query per target type. It describes the rendered material (servers/isaac_server.py PALETTE),
-# which is the only appearance cue an open-vocabulary model has to go on.
+# The task's text query per target type. It describes the rendered material (servers/environment/isaac_server.py
+# PALETTE), which is the only appearance cue an open-vocabulary model has to go on.
 FALCON_MODEL_ID = "tiiuae/Falcon-Perception"
 
 # A frame the model errors on is MISSING. A run of them means the server is broken, not the frame, and the

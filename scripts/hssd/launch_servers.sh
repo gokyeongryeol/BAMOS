@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Start / stop the HSSD teleport render servers (servers/hssd_server.py, in the habitat env), one per worker of
-# scripts/hssd/run.py.
+# Start / stop the HSSD teleport render servers (servers/environment/hssd_server.py, in the habitat env), one per
+# worker of scripts/hssd/run.py.
 #
 #   bash scripts/hssd/launch_servers.sh start 4 0,1,2,3      # 4 servers on GPUs 0-3, ports $HSSD_BASE.. (5800)
 #   bash scripts/hssd/launch_servers.sh stop 4
@@ -38,7 +38,7 @@ mkdir -p "$LOG"
 for ((i = 0; i < N; i++)); do
   port=$((BASE + i)); gpu=${G[$((i % ${#G[@]}))]}
   rm -f "$LOG/teleport_$port.log"
-  CUDA_VISIBLE_DEVICES=$gpu nohup "$HAB_PY" servers/hssd_server.py --port "$port" --data-root "$(realpath "$DATA_ROOT")" ${HSSD_SERVER_ARGS:-} > "$LOG/teleport_$port.log" 2>&1 &
+  CUDA_VISIBLE_DEVICES=$gpu nohup "$HAB_PY" servers/environment/hssd_server.py --port "$port" --data-root "$(realpath "$DATA_ROOT")" ${HSSD_SERVER_ARGS:-} > "$LOG/teleport_$port.log" 2>&1 &
   echo "server $port on GPU $gpu (pid $!)"
 done
 for ((i = 0; i < N; i++)); do
