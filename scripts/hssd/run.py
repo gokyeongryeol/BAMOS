@@ -55,7 +55,7 @@ def main():
     import torch
 
     from bamos.config import config_hash, load_config
-    from bamos.environment.hssd_env import HabitatEnvironment, TeleportClient
+    from bamos.environment.hssd_env import HssdEnvironment, HssdClient
     from bamos.evaluation.records import JsonlWriter, _jsonable
     from bamos.experiment.benchmark import code_commit
     from bamos.planning.hssd_runner import HssdEpisodeRunner
@@ -83,7 +83,7 @@ def main():
     torch.cuda.set_device(a.gpu)
     cfg["experiment"]["device"] = f"cuda:{a.gpu}"
     # a scene's first known-shape query (server-side surface sampling) can take many minutes on a busy machine
-    connect = lambda: TeleportClient(cfg["hssd"]["host"], a.port, timeout=float(a.timeout))  # noqa: E731
+    connect = lambda: HssdClient(cfg["hssd"]["host"], a.port, timeout=float(a.timeout))  # noqa: E731
     client = connect()
     detector = None
     if cfg["sensor_detector"]["mode"] == "open_set":
@@ -127,7 +127,7 @@ def main():
         row = {"scene": e["scene"], "episode_id": e["episode_id"], "category": e["category"], "config_hash": chash,
                "code_commit": commit}
         try:
-            env = HabitatEnvironment(client, cfg, e["scene"], e["episode_id"], camera)
+            env = HssdEnvironment(client, cfg, e["scene"], e["episode_id"], camera)
             env.open_set_client = detector
             ctx = EpisodeContext(out.name, f"{e['scene']}_{e['episode_id']}", e["scene"], 0, int(e["episode_id"]), "bamos",
                                  0, 0, chash, commit)

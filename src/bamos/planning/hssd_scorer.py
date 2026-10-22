@@ -31,7 +31,7 @@ def reach_of(camera: CameraModel, sizes: np.ndarray, offsets: np.ndarray) -> flo
     return float(np.hypot(far, np.hypot(far * tx + h, far * ty + h))) + float(np.linalg.norm(offsets, axis=1).max())
 
 
-class LocalScorer(Scorer):
+class HssdScorer(Scorer):
     def __init__(self, engine: VisibilityEngine, det_lik: DetectionLikelihood, cfg: ScorerConfig, reach_m: float):
         super().__init__(engine, det_lik, cfg)
         self.reach = float(reach_m)
@@ -96,7 +96,7 @@ class LocalScorer(Scorer):
 
     def predict_pose(self, state: BeliefState, world_from_camera: np.ndarray, pose_id: int = -1, camera=None) -> PredictiveSnapshot:
         if camera is not None and camera != self.engine.camera:
-            raise ValueError("LocalScorer: the robot camera only (its reach is the robot camera's)")
+            raise ValueError("HssdScorer: the robot camera only (its reach is the robot camera's)")
         r_sub = self._r_sub_full(state, world_from_camera)
         r = r_sub.mean(dim=0)
         pi = self.engine.to_tensor(state.location.probs()).to(torch.float64)

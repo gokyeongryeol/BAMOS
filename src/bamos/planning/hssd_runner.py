@@ -20,10 +20,10 @@ from __future__ import annotations
 import numpy as np
 
 from bamos.belief.voxel_belief import KnownShapeVoxelBelief
-from bamos.evaluation.hssd_evaluator import ObjectNavEvaluator
+from bamos.evaluation.hssd_evaluator import HssdEvaluator
 from bamos.mapping.grid import VoxelGrid
 from bamos.observation.types import PlannerObservation
-from bamos.planning.hssd_scorer import LocalScorer, reach_of
+from bamos.planning.hssd_scorer import HssdScorer, reach_of
 from bamos.planning.runner import EpisodeResult, EpisodeRunner
 from bamos.planning.scorer import ScorerConfig
 from bamos.visibility.engine import EngineConfig
@@ -162,8 +162,8 @@ class HssdEpisodeRunner(EpisodeRunner):
         ec.dda_max_iter = int(np.ceil(3.0 * (self._reach + 1.0) / float(self.cfg["mapping"]["occupancy_voxel_m"]))) + 3
         return ec
 
-    def make_scorer(self, scfg: ScorerConfig) -> LocalScorer:
-        return LocalScorer(self.engine, self.det_lik, scfg, self._reach)
+    def make_scorer(self, scfg: ScorerConfig) -> HssdScorer:
+        return HssdScorer(self.engine, self.det_lik, scfg, self._reach)
 
     def make_voxel_belief(self):
         mp, ex = self.cfg["mapping"], self.cfg["experiment"]
@@ -179,8 +179,8 @@ class HssdEpisodeRunner(EpisodeRunner):
         vb.near_hits = bool(mp.get("near_hits", False))
         return vb
 
-    def make_evaluator(self) -> ObjectNavEvaluator:
-        return ObjectNavEvaluator(self.env, self.cfg["evaluation"], self.state.candidate_centers(),
+    def make_evaluator(self) -> HssdEvaluator:
+        return HssdEvaluator(self.env, self.cfg["evaluation"], self.state.candidate_centers(),
                                   float(self.hc["viewpoint_success_m"]), float(self.hc["sensor_height_m"]))
 
     # ---------------------------------------------------------------------------------------------- the next pose

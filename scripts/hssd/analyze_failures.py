@@ -35,14 +35,14 @@ def main():
     import numpy as np
 
     from bamos.config import load_config
-    from bamos.environment.hssd_env import HabitatEnvironment, TeleportClient
+    from bamos.environment.hssd_env import HssdEnvironment, HssdClient
     from bamos.mapping.camera import inverse_transform
     from bamos.planning.hssd_runner import FloorSeenMap
     from bamos.planning.runner import camera_from_cfg
 
     cfg = load_config(a.config)
     hc = cfg["hssd"]
-    client = TeleportClient(hc["host"], a.port)
+    client = HssdClient(hc["host"], a.port)
     cam = camera_from_cfg(cfg["cameras"]["robot"])
     run = Path(a.run)
     rows = [json.loads(l) for l in open(run / "episodes.jsonl")]
@@ -56,7 +56,7 @@ def main():
         if (r["scene"], r["episode_id"]) in done:
             continue
         t0 = time.time()
-        env = HabitatEnvironment(client, cfg, r["scene"], r["episode_id"], cam)
+        env = HssdEnvironment(client, cfg, r["scene"], r["episode_id"], cam)
         gi, T = env.pool.grid_index, env.pool.world_from_camera
         b = env.base_world
         steps = [json.loads(l) for l in open(run / "steps" / f"{r['scene']}_{r['episode_id']}.jsonl")]

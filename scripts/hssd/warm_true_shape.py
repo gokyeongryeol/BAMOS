@@ -17,11 +17,11 @@ def main() -> int:
     ap.add_argument("--shard", default="0/1")
     a = ap.parse_args()
     from bamos.config import load_config
-    from bamos.environment.hssd_env import HabitatEnvironment, TeleportClient
+    from bamos.environment.hssd_env import HssdEnvironment, HssdClient
     from bamos.planning.runner import camera_from_cfg
 
     cfg = load_config(a.config)
-    client = TeleportClient(cfg["hssd"]["host"], a.port, timeout=7200.0)
+    client = HssdClient(cfg["hssd"]["host"], a.port, timeout=7200.0)
     cam = camera_from_cfg(cfg["cameras"]["robot"])
     first = {}
     for e in client.episodes():
@@ -29,7 +29,7 @@ def main() -> int:
     k, n = (int(x) for x in a.shard.split("/"))
     for s in sorted(first)[k::n]:
         t = time.time()
-        HabitatEnvironment(client, cfg, s, first[s], cam).true_points()
+        HssdEnvironment(client, cfg, s, first[s], cam).true_points()
         print(f"{s} {time.time() - t:.0f} s", flush=True)
     return 0
 

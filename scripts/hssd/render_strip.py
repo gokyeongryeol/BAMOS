@@ -69,7 +69,7 @@ def main() -> int:
     import yaml
 
     from bamos.config import load_config
-    from bamos.environment.hssd_env import HabitatEnvironment, TeleportClient
+    from bamos.environment.hssd_env import HssdEnvironment, HssdClient
     from bamos.observation.types import DetectionStatus
     from bamos.planning.hssd_runner import HssdEpisodeRunner
     from bamos.planning.runner import EpisodeContext, camera_from_cfg
@@ -91,9 +91,9 @@ def main() -> int:
     cfg = load_config(a.config, overrides)
     torch.cuda.set_device(a.gpu)
     cfg["experiment"]["device"] = f"cuda:{a.gpu}"
-    client = TeleportClient(cfg["hssd"]["host"], a.port, timeout=7200.0)
+    client = HssdClient(cfg["hssd"]["host"], a.port, timeout=7200.0)
     cam = camera_from_cfg(cfg["cameras"]["robot"])
-    env = HabitatEnvironment(client, cfg, a.scene, a.episode, cam)
+    env = HssdEnvironment(client, cfg, a.scene, a.episode, cam)
     if cfg["sensor_detector"]["mode"] == "open_set":
         from bamos.environment.open_set import DetectorClient
         env.open_set_client = DetectorClient(cfg["hssd"]["host"], a.detector_port,

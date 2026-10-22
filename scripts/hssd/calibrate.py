@@ -61,13 +61,13 @@ def setup(cfg_path: str, port: int, gpu: int, overrides: list | None = None):
     import torch
 
     from bamos.config import load_config
-    from bamos.environment.hssd_env import TeleportClient
+    from bamos.environment.hssd_env import HssdClient
     from bamos.planning.runner import camera_from_cfg
 
     torch.cuda.set_device(gpu)
     cfg = load_config(cfg_path, overrides or [])
     cfg["experiment"]["device"] = f"cuda:{gpu}"
-    return cfg, TeleportClient(cfg["hssd"]["host"], port), camera_from_cfg(cfg["cameras"]["robot"])
+    return cfg, HssdClient(cfg["hssd"]["host"], port), camera_from_cfg(cfg["cameras"]["robot"])
 
 
 def runner_for(env, cfg):
@@ -98,7 +98,7 @@ def episode_list(client, seed: int) -> list[dict]:
 
 
 def cmd_collect(a) -> int:
-    from bamos.environment.hssd_env import HabitatEnvironment
+    from bamos.environment.hssd_env import HssdEnvironment
     from bamos.mapping.camera import inverse_transform
     import isaac_scripts
 
@@ -138,7 +138,7 @@ def cmd_collect(a) -> int:
             continue
         t0 = time.time()
         try:
-            env = HabitatEnvironment(client, cfg, e["scene"], e["episode_id"], cam)
+            env = HssdEnvironment(client, cfg, e["scene"], e["episode_id"], cam)
             env.open_set_client = detector
             env.open_set_record_instances = detector is not None
         except RuntimeError as err:  # e.g. no goal object in the scene: the episode is skipped, logged
@@ -233,7 +233,7 @@ def cmd_occupancy(a) -> int:
     import torch
 
     from bamos.belief.voxel_belief import VoxelBelief
-    from bamos.environment.hssd_env import HabitatEnvironment
+    from bamos.environment.hssd_env import HssdEnvironment
     import isaac_scripts
 
     fit_binomial_mixture = isaac_scripts.load("calib_voxel_belief").fit_binomial_mixture
@@ -243,7 +243,7 @@ def cmd_occupancy(a) -> int:
     meta = episodes_meta(out)
     pairs: dict = {}
     for ep_id, m in meta.items():
-        env = HabitatEnvironment(client, cfg, m["scene"], m["hssd_episode"], cam)
+        env = HssdEnvironment(client, cfg, m["scene"], m["hssd_episode"], cam)
         r = runner_for(env, cfg)
         og, known = r.known()
         vb = VoxelBelief(og, 0.5, 0.5, 0.01, cfg["experiment"]["device"], int(cfg["mapping"]["occupancy_pixel_stride"]))
@@ -273,7 +273,7 @@ def cmd_occupancy(a) -> int:
 def cmd_replay(a) -> int:
     import torch
 
-    from bamos.environment.hssd_env import HabitatEnvironment
+    from bamos.environment.hssd_env import HssdEnvironment
     from bamos.evaluation.hssd_evaluator import box_distance
 
     cfg, client, cam = setup(a.config, a.port, a.gpu)
@@ -285,7 +285,7 @@ def cmd_replay(a) -> int:
     rows = []
     for ep_id, m in meta.items():
         t0 = time.time()
-        env = HabitatEnvironment(client, cfg, m["scene"], m["hssd_episode"], cam)
+        env = HssdEnvironment(client, cfg, m["scene"], m["hssd_episode"], cam)
         run = runner_for(env, cfg)
         eng, sc, vb, sizes = run.engine, run.scorer, run.voxel_belief, run.sizes
         cc = run.state.candidate_centers()

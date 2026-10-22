@@ -39,7 +39,7 @@ from bamos.observation.types import DetectionStatus, PlannerObservation
 from bamos.planning.candidates import CandidatePool
 
 
-class TeleportClient(IsaacClient):
+class HssdClient(IsaacClient):
     """Same length-prefixed JSON + npz transport as the Isaac client."""
 
     def episodes(self) -> list[dict]:
@@ -91,8 +91,8 @@ class HssdGroundTruth(EvaluatorGroundTruth):
     geodesic_distance: float = float("nan")  # the episode's shortest path to a goal view point (SPL)
 
 
-class HabitatEnvironment(Environment):
-    def __init__(self, client: TeleportClient, cfg: dict, scene: str, episode_id: str, robot_camera: CameraModel):
+class HssdEnvironment(Environment):
+    def __init__(self, client: HssdClient, cfg: dict, scene: str, episode_id: str, robot_camera: CameraModel):
         self.client, self.cfg = client, cfg
         hc = cfg["hssd"]
         self.hc = hc

@@ -30,11 +30,11 @@ def size_scale(lo, hi) -> float:
 
 def collect(a):
     from bamos.config import load_config
-    from bamos.environment.hssd_env import TeleportClient
+    from bamos.environment.hssd_env import HssdClient
 
     cfg = load_config(a.config)
     hc = cfg["hssd"]
-    client = TeleportClient(hc["host"], a.port)
+    client = HssdClient(hc["host"], a.port)
     by: dict = {}
     for e in client.episodes():
         by.setdefault((e["scene"], e["category"]), []).append(e)

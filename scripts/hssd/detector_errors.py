@@ -38,7 +38,7 @@ def main() -> int:
     import yaml
 
     from bamos.config import load_config
-    from bamos.environment.hssd_env import HabitatEnvironment, TeleportClient
+    from bamos.environment.hssd_env import HssdEnvironment, HssdClient
     from bamos.environment.open_set import DetectorClient
     from bamos.planning.runner import camera_from_cfg
     from run import parse_value
@@ -55,7 +55,7 @@ def main() -> int:
         overrides.append(d)
     cfg = load_config(a.config, overrides)
     cam = camera_from_cfg(cfg["cameras"]["robot"])
-    client = TeleportClient(cfg["hssd"]["host"], a.port, timeout=7200.0)
+    client = HssdClient(cfg["hssd"]["host"], a.port, timeout=7200.0)
     det = DetectorClient(cfg["hssd"]["host"], a.detector_port, cache_dir=cfg["sensor_detector"].get("open_set_cache_dir"))
     run = Path(a.run)
     rows = [json.loads(l) for l in open(run / "episodes.jsonl")]
@@ -69,7 +69,7 @@ def main() -> int:
     for r in pick:
         if (r["scene"], r["episode_id"]) in done:
             continue
-        env = HabitatEnvironment(client, cfg, r["scene"], r["episode_id"], cam)
+        env = HssdEnvironment(client, cfg, r["scene"], r["episode_id"], cam)
         env.open_set_client = det
         cats = {int(i): str(c) for i, c in env.header.get("objects", [])}
         gids = set(int(g) for g in env.goal_ids)

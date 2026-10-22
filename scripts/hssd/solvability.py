@@ -31,12 +31,12 @@ def main():
     import numpy as np
 
     from bamos.config import load_config
-    from bamos.environment.hssd_env import HabitatEnvironment, TeleportClient
+    from bamos.environment.hssd_env import HssdEnvironment, HssdClient
     from bamos.mapping.camera import inverse_transform
     from bamos.planning.runner import camera_from_cfg
 
     cfg = load_config(a.config)
-    client = TeleportClient(cfg["hssd"]["host"], a.port)
+    client = HssdClient(cfg["hssd"]["host"], a.port)
     cam = camera_from_cfg(cfg["cameras"]["robot"])
     eps = sorted(client.episodes(), key=lambda e: (e["scene"], int(e["episode_id"])))
     if a.scenes:
@@ -50,7 +50,7 @@ def main():
         if (e["scene"], e["episode_id"]) in done:
             continue
         t0 = time.time()
-        env = HabitatEnvironment(client, cfg, e["scene"], e["episode_id"], cam)
+        env = HssdEnvironment(client, cfg, e["scene"], e["episode_id"], cam)
         key = (e["scene"], e["category"], env.island)
         if key not in groups:
             goals = env.ground_truth().goals

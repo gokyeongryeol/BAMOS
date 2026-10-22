@@ -24,7 +24,7 @@ def box_distance(points: np.ndarray, lo: np.ndarray, hi: np.ndarray) -> np.ndarr
     return np.linalg.norm(d, axis=2)
 
 
-class ObjectNavEvaluator(Evaluator):
+class HssdEvaluator(Evaluator):
     def __init__(self, env, eval_cfg: dict, candidate_centers: np.ndarray, viewpoint_success_m: float, sensor_height_m: float):
         self.env = env
         self.gt = env.ground_truth()
